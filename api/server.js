@@ -36,7 +36,7 @@ server.use(session(sessionConfig));
 
 server.use("/api/auth", authRouter);
 server.use("/api/jokes", authenticate, jokesRouter);
-server.use("/api/users", usersRouter);
+server.use("/api/users", usersRouter, authenticate);
 
 server.get("/", (req, res) => {
     res.status(200).json({ message: "home slash of the login page" });
