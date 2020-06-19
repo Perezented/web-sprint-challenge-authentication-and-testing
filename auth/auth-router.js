@@ -2,7 +2,7 @@ const router = require("express").Router();
 const bcryptjs = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const Users = require("../users/usersModel");
-const consts = require("../config/consts");
+const randomConfig = require("../config/randomConfig");
 
 router.post("/register", (req, res) => {
     // implement registration
@@ -21,29 +21,18 @@ router.post("/register", (req, res) => {
 router.post("/login", (req, res) => {
     const { username, password } = req.body;
 
-    //  verify user password
-    // Users.findBy({ username })
-    //     .then(([user]) => {
-    //         console.log(user);
-    //         req.session.user = { user };
-    //         if (user && bcryptjs.compareSync(password, user.password)) {
-    //             const token = createToken(user);
-    //             res.status(200).json({
-    //                 user,
-    //                 session: req.session,
-    //                 token: token,
-    //             });
-    //         }
-    //     })
-    //     .catch((err) => {
-    //         console.log(err);
-    //     });
     Users.findBy({ username })
         .then(([user]) => {
-            console.log(user);
+            console.log("1ST USER", user);
+            // console.log(req.session.user);
             req.session.user = { user };
+            console.log("req.session", req.session.user);
+            console.log("password", password);
+            console.log("user password", user.password);
             if (user && bcryptjs.compareSync(password, user.password)) {
                 const token = createToken(user);
+                console.log("token", token);
+                console.log("useragian", user);
                 res.status(200).json({
                     user,
                     session: req.session,
@@ -56,7 +45,7 @@ router.post("/login", (req, res) => {
                 });
         })
         .catch((err) => {
-            // console.log(err);
+            console.log(err);
             res.status(500).json({ error: "could not login", err });
         });
 });
@@ -77,11 +66,11 @@ router.get("/logout", (req, res) => {
 });
 
 function createToken(user) {
+    const secret = "process.env.JWT_SECRET";
     const payload = {
         subject: user.id,
         username: user.username,
     };
-    const secret = consts.jwtSecret;
     const options = {
         expiresIn: "6h",
     };
