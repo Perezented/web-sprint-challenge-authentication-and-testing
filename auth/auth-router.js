@@ -22,6 +22,22 @@ router.post("/login", (req, res) => {
     const { username, password } = req.body;
 
     //  verify user password
+    // Users.findBy({ username })
+    //     .then(([user]) => {
+    //         console.log(user);
+    //         req.session.user = { user };
+    //         if (user && bcryptjs.compareSync(password, user.password)) {
+    //             const token = createToken(user);
+    //             res.status(200).json({
+    //                 user,
+    //                 session: req.session,
+    //                 token: token,
+    //             });
+    //         }
+    //     })
+    //     .catch((err) => {
+    //         console.log(err);
+    //     });
     Users.findBy({ username })
         .then(([user]) => {
             console.log(user);
@@ -64,7 +80,6 @@ function createToken(user) {
     const payload = {
         subject: user.id,
         username: user.username,
-        description: user.description,
     };
     const secret = consts.jwtSecret;
     const options = {

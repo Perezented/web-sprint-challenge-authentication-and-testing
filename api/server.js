@@ -8,7 +8,7 @@ const jokesRouter = require("../jokes/jokes-router.js");
 
 const session = require("express-session");
 const KnexSessionsStore = require("connect-session-knex")(session);
-const dbConnection = require("../data/connection");
+const dbConnection = require("../database/dbConfig");
 const server = express();
 const sessionConfig = {
     name: "monster",
