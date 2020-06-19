@@ -16,9 +16,31 @@ describe("GET / of server.js", () => {
             .get("/")
             .then((res) => {
                 // console.log(res)
-                expect(res.body).toBe({
+                expect(res.body).toStrictEqual({
                     message: "home slash of the login page",
                 });
+            });
+    });
+    it("should get not let you into users", async () => {
+        supertest(server)
+            .get("/api/users")
+            .then((res) => {
+                expect(res.body).toStrictEqual({
+                    Error:
+                        "Please provide credentials to access this resource.",
+                });
+            });
+    });
+    it("should get not let you into users", async () => {
+        supertest(server)
+            .get("/api/users")
+            .set(
+                "Authorization",
+                "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWJqZWN0IjoxLCJ1c2VybmFtZSI6Im5ldyIsImlhdCI6MTU5MjU4NTQ5MSwiZXhwIjoxNTkyNjA3MDkxfQ.ViEWBZ5sCKQdSc3MRLtZFgvMPpLyO_rBi3o3r8hVCqA"
+            )
+            .then((res) => {
+                // console.log(res.body);
+                expect(res.body).toStrictEqual([{ id: 1, username: "new" }]);
             });
     });
 });
