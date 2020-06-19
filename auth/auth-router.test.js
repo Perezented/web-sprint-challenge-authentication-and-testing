@@ -1,3 +1,7 @@
+/**
+ * @jest-environment node
+ */
+
 const db = require("../database/dbConfig");
 const supertest = require("supertest");
 const server = require("../api/server");
