@@ -21,7 +21,7 @@ describe("GET / of server.js", () => {
                 });
             });
     });
-    it("should get not let you into users", async () => {
+    it("should not let you into users", async () => {
         supertest(server)
             .get("/api/users")
             .then((res) => {
@@ -31,7 +31,7 @@ describe("GET / of server.js", () => {
                 });
             });
     });
-    it("should get not let you into users", async () => {
+    it("should let you into users", async () => {
         supertest(server)
             .get("/api/users")
             .set(
